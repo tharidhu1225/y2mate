@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #a337dc; /* same as bg-red-500 */
+  color: #1e293b; /* same as text-slate-800 */
+}
