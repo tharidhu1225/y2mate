@@ -3,6 +3,7 @@ import axios from 'axios'
 import SearchBox from './saerchBox'
 
 const BACKEND = import.meta.env.VITE_API_URL
+const AD_URL = "https://www.revenuecpmgate.com/he4idkrgy?key=d0dc2e1a3e49e681aeb90bd9e76d9cde" // Ad link
 
 export default function Downloader() {
   const [url, setUrl] = useState('')
@@ -29,18 +30,41 @@ export default function Downloader() {
   }
 
   function downloadMp4(itag) {
-    const downloadUrl = `${BACKEND}/api/download/mp4?url=${encodeURIComponent(
-      url
-    )}${itag ? `&itag=${itag}` : ''}`
-    window.open(downloadUrl, '_blank')
-  }
+  // 1. Open ad tab immediately
+  window.open(AD_URL, "_blank")
+
+  // 2. Open a blank tab for download
+  const downloadWindow = window.open("", "_blank")
+
+  // 3. Prepare download URL
+  const downloadUrl = `${BACKEND}/api/download/mp4?url=${encodeURIComponent(
+    url
+  )}${itag ? `&itag=${itag}` : ''}`
+
+  // 4. Delay and redirect
+  setTimeout(() => {
+    if (downloadWindow) {
+      downloadWindow.location.href = downloadUrl
+    }
+  }, 2500)
+}
+
 
   function downloadMp3() {
-    const downloadUrl = `${BACKEND}/api/download/mp3?url=${encodeURIComponent(
-      url
-    )}&abr=192`
-    window.open(downloadUrl, '_blank')
-  }
+  window.open(AD_URL, "_blank")
+  const downloadWindow = window.open("", "_blank")
+
+  const downloadUrl = `${BACKEND}/api/download/mp3?url=${encodeURIComponent(
+    url
+  )}&abr=192`
+
+  setTimeout(() => {
+    if (downloadWindow) {
+      downloadWindow.location.href = downloadUrl
+    }
+  }, 2500)
+}
+
 
   return (
     <div className="w-full">
